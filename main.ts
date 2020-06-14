@@ -136,6 +136,8 @@ let Pellet_Count = tiles.getTilesByType(myTiles.tile2).length + tiles.getTilesBy
 game.onUpdate(function () {
     controller.moveSprite(Pacman, 50, 50)
     scene.cameraFollowSprite(Pacman)
+})
+game.onUpdateInterval(500, function () {
     if (Pellet_Count == 0) {
         game.over(true, effects.confetti)
     }
