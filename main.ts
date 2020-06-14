@@ -82,4 +82,5 @@ let Pacman = sprites.create(img`
 tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
 game.onUpdate(function () {
     controller.moveSprite(Pacman, 50, 50)
+    scene.cameraFollowSprite(Pacman)
 })
