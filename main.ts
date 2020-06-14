@@ -84,6 +84,7 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
     music.powerUp.play()
+    info.changeScoreBy(10)
 })
 music.setVolume(20)
 info.setScore(0)
