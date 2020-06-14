@@ -80,11 +80,13 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location
     tiles.setTileAt(location, myTiles.tile0)
     music.pewPew.play()
     info.changeScoreBy(1)
+    Pellet_Count += -1
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
     music.powerUp.play()
     info.changeScoreBy(10)
+    Pellet_Count += -1
 })
 music.setVolume(20)
 info.setScore(0)
@@ -130,7 +132,11 @@ let Pacman = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.Player)
 tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
+let Pellet_Count = tiles.getTilesByType(myTiles.tile2).length + tiles.getTilesByType(myTiles.tile3).length
 game.onUpdate(function () {
     controller.moveSprite(Pacman, 50, 50)
     scene.cameraFollowSprite(Pacman)
+    if (Pellet_Count == 0) {
+        game.over(true, effects.confetti)
+    }
 })
