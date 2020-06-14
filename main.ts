@@ -76,18 +76,106 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
+function animatePacman () {
+    animation.runImageAnimation(
+    Pacman,
+    [img`
+. . . . . . . . . . . . . . . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . 5 5 5 5 5 5 5 5 5 5 5 . . . 
+. . 5 5 5 5 5 5 5 5 5 5 . . . . 
+. 5 5 5 5 5 5 5 5 5 5 . . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 5 5 5 . . . . . 
+. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . . . . . . . . . . . . . . 
+`,img`
+. . . . . . . . . . . . . . . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . . . . . . . . . . . . . . 
+`,img`
+. . . . . . . . . . . . . . . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 . . . 
+. . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. . . 5 5 5 5 5 5 5 5 5 5 . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 . . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . . . . . . . . . . . . . . 
+`,img`
+. . . . . . . . . . . . . . . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
+. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 5 . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . . . . . . . . . . . . . . 
+`,img`
+. . . . . . . . . . . . . . . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . 5 5 5 5 5 5 5 5 5 5 5 . . . 
+. . 5 5 5 5 5 5 5 5 5 5 . . . . 
+. 5 5 5 5 5 5 5 5 5 5 . . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 5 5 5 5 5 . . . . . . . 
+. 5 5 5 5 5 5 5 5 5 5 . . . . . 
+. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 . . . 
+. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
+. . . . 5 5 5 5 5 5 5 5 . . . . 
+. . . . . . . . . . . . . . . . 
+`],
+    100,
+    true
+    )
+}
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
     music.pewPew.play()
     info.changeScoreBy(1)
     Pellet_Count += -1
 })
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
-    tiles.setTileAt(location, myTiles.tile0)
-    music.powerUp.play()
-    info.changeScoreBy(10)
-    Pellet_Count += -1
-})
+let Pacman: Sprite = null
 music.setVolume(20)
 info.setScore(0)
 tiles.setTilemap(tiles.createTilemap(
@@ -113,7 +201,7 @@ tiles.setTilemap(tiles.createTilemap(
             [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3],
             TileScale.Sixteen
         ))
-let Pacman = sprites.create(img`
+Pacman = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . 5 5 5 5 5 5 5 5 . . . . 
 . . . 5 5 5 5 5 5 5 5 5 5 5 . . 
@@ -133,6 +221,7 @@ let Pacman = sprites.create(img`
 `, SpriteKind.Player)
 tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
 let Pellet_Count = tiles.getTilesByType(myTiles.tile2).length + tiles.getTilesByType(myTiles.tile3).length
+animatePacman()
 game.onUpdate(function () {
     controller.moveSprite(Pacman, 50, 50)
     scene.cameraFollowSprite(Pacman)
