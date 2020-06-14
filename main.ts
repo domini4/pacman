@@ -136,6 +136,11 @@ let Pellet_Count = tiles.getTilesByType(myTiles.tile2).length + tiles.getTilesBy
 game.onUpdate(function () {
     controller.moveSprite(Pacman, 50, 50)
     scene.cameraFollowSprite(Pacman)
+    if (Pacman.x == 7 && controller.left.isPressed()) {
+        Pacman.x = 249
+    } else if (Pacman.x == 249 && controller.right.isPressed()) {
+        Pacman.x = 7
+    }
 })
 game.onUpdateInterval(500, function () {
     if (Pellet_Count == 0) {
