@@ -1,18 +1,1 @@
-<xml xmlns="https://developers.google.com/blockly/xml"><variables><variable id="@Lk65TmtQ:.@O-PcCw.Y">mySprite</variable><variable type="KIND_SpriteKind" id="{N}(z1S}hc(Rc_f1TM]#">Player</variable><variable type="KIND_SpriteKind" id=",mLY/cknsLB@U3{Kkrl}">Projectile</variable><variable type="KIND_SpriteKind" id="^_mrX|z$ACYedY+%`if$">Food</variable><variable type="KIND_SpriteKind" id="F~gemk8Jdm3d@O$-lvUs">Enemy</variable></variables><block type="pxt-on-start" id="qP5;JS,JLE,,qTfv0X`z" x="0" y="0"><statement name="HANDLER"><block type="variables_set" id="b9gJ7w1%}|uNd%;|7PEd"><field name="VAR" id="@Lk65TmtQ:.@O-PcCw.Y">mySprite</field><value name="VALUE"><shadow xmlns="http://www.w3.org/1999/xhtml" type="math_number"><field name="NUM">0</field></shadow><block type="spritescreate" id="9,LxQzYV3{ckkD,-1NPo"><value name="img"><shadow type="screen_image_picker" id="?-h%AO^lL/^ktn44`$zk"><field name="img">img`
-. . . . . . . . . . . . . . . . 
-. . . . 5 5 5 5 5 5 5 5 . . . . 
-. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
-. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
-. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
-. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
-. 5 5 5 5 5 5 5 5 . . . . . . . 
-. 5 5 5 5 5 5 5 . . . . . . . . 
-. 5 5 5 5 5 5 5 . . . . . . . . 
-. 5 5 5 5 5 5 5 5 . . . . . . . 
-. 5 5 5 5 5 5 5 5 5 5 5 . . . . 
-. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
-. . . 5 5 5 5 5 5 5 5 5 5 5 5 . 
-. . . 5 5 5 5 5 5 5 5 5 5 5 . . 
-. . . . 5 5 5 5 5 5 5 5 . . . . 
-. . . . . . . . . . . . . . . . 
-`</field></shadow></value><value name="kind"><shadow type="spritekind" id="0*5wccrBL+mO`V#*VQ-y"><field name="MEMBER">Player</field></shadow></value></block></value></block></statement></block></xml>
+<xml xmlns="https://developers.google.com/blockly/xml"><variables><variable type="KIND_SpriteKind" id="{N}(z1S}hc(Rc_f1TM]#">Player</variable><variable type="KIND_SpriteKind" id=",mLY/cknsLB@U3{Kkrl}">Projectile</variable><variable type="KIND_SpriteKind" id="^_mrX|z$ACYedY+%`if$">Food</variable><variable type="KIND_SpriteKind" id="F~gemk8Jdm3d@O$-lvUs">Enemy</variable><variable id="@Lk65TmtQ:.@O-PcCw.Y">mySprite</variable><variable id="kfT=ek(ZI6ttM?i851(q">Pacman</variable></variables><block type="pxt-on-start" id="qP5;JS,JLE,,qTfv0X`z" x="0" y="0"><statement name="HANDLER"><block type="variables_set" id="b9gJ7w1%}|uNd%;|7PEd"><field name="VAR" id="kfT=ek(ZI6ttM?i851(q">Pacman</field><value name="VALUE"><shadow xmlns="http://www.w3.org/1999/xhtml" type="math_number"><field name="NUM">0</field></shadow><block type="spritescreate" id="9,LxQzYV3{ckkD,-1NPo"><value name="img"><shadow type="screen_image_picker" id="?-h%AO^lL/^ktn44`$zk"><field name="img">img`&#10;. . . . . . . . . . . . . . . . &#10;. . . . 5 5 5 5 5 5 5 5 . . . . &#10;. . . 5 5 5 5 5 5 5 5 5 5 5 . . &#10;. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . &#10;. . 5 5 5 5 5 5 5 5 5 5 5 5 5 . &#10;. 5 5 5 5 5 5 5 5 5 5 5 . . . . &#10;. 5 5 5 5 5 5 5 5 . . . . . . . &#10;. 5 5 5 5 5 5 5 . . . . . . . . &#10;. 5 5 5 5 5 5 5 . . . . . . . . &#10;. 5 5 5 5 5 5 5 5 . . . . . . . &#10;. 5 5 5 5 5 5 5 5 5 5 5 . . . . &#10;. 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . &#10;. . . 5 5 5 5 5 5 5 5 5 5 5 5 . &#10;. . . 5 5 5 5 5 5 5 5 5 5 5 . . &#10;. . . . 5 5 5 5 5 5 5 5 . . . . &#10;. . . . . . . . . . . . . . . . &#10;`</field></shadow></value><value name="kind"><shadow type="spritekind" id="0*5wccrBL+mO`V#*VQ-y"><field name="MEMBER">Player</field></shadow></value></block></value></block></statement></block></xml>

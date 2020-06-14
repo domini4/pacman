@@ -1,4 +1,4 @@
-let mySprite = sprites.create(img`
+let Pacman = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . 5 5 5 5 5 5 5 5 . . . . 
 . . . 5 5 5 5 5 5 5 5 5 5 5 . . 
