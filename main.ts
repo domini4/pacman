@@ -1,3 +1,8 @@
+enum ActionKind {
+    Walking,
+    Idle,
+    Jumping
+}
 namespace myTiles {
     //% blockIdentity=images._tile
     export const tile0 = img`
@@ -208,11 +213,106 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location
     info.changeScoreBy(1)
     Pellet_Count += -1
 })
+function animateClyde () {
+    animWalkClyde = animation.createAnimation(ActionKind.Walking, 150)
+    animation.attachAnimation(Clyde, animWalkClyde)
+    animWalkClyde.addAnimationFrame(img`
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . . . 4 . . . . 4 . . . 4 . . 
+`)
+    animWalkClyde.addAnimationFrame(img`
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 . . 4 4 4 4 . 4 4 4 . . 4 . . 
+. . . . 4 4 . . . 4 . . . . . . 
+`)
+    animWalkClyde.addAnimationFrame(img`
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 1 1 8 8 4 4 1 1 8 8 . . . 
+. 4 4 1 1 8 8 4 4 1 1 8 8 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . . . 4 . . . . 4 . . . 4 . . 
+`)
+    animWalkClyde.addAnimationFrame(img`
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 . . 4 4 4 4 . 4 4 4 . . 4 . . 
+. . . . 4 4 . . . 4 . . . . . . 
+`)
+    animWalkClyde.addAnimationFrame(img`
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . . . 4 . . . . 4 . . . 4 . . 
+`)
+}
 function clydeMovement () {
     if (scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))) {
         clydeCollision()
     }
 }
+let animWalkClyde: animation.Animation = null
 let ClydePossibleDirections: number[] = []
 let Clyde: Sprite = null
 let Pacman: Sprite = null
@@ -280,8 +380,10 @@ Clyde = sprites.create(img`
 4 4 4 4 4 4 . . 4 4 4 . 4 4 . . 
 4 . 4 . 4 . . . . 4 . . . 4 . . 
 `, SpriteKind.Enemy)
-tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 1))
+tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
 Clyde.setVelocity(50, 0)
+animateClyde()
+animation.setAction(Clyde, ActionKind.Walking)
 game.onUpdateInterval(500, function () {
     if (Pellet_Count == 0) {
         game.over(true, effects.confetti)
