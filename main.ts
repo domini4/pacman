@@ -222,6 +222,26 @@ Pacman = sprites.create(img`
 tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
 let Pellet_Count = tiles.getTilesByType(myTiles.tile2).length + tiles.getTilesByType(myTiles.tile3).length
 animatePacman()
+let Clyde = sprites.create(img`
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . 4 . 4 . . . . 4 . . . 4 . . 
+`, SpriteKind.Enemy)
+tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
+Clyde.setVelocity(50, 0)
 game.onUpdate(function () {
     controller.moveSprite(Pacman, 50, 50)
     scene.cameraFollowSprite(Pacman)
