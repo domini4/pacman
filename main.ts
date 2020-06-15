@@ -1,7 +1,8 @@
 enum ActionKind {
     Walking,
     Idle,
-    Jumping
+    Jumping,
+    Scared
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -310,9 +311,102 @@ function animateClyde () {
 4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
 4 . . . 4 . . . . 4 . . . 4 . . 
 `)
+    animScaredClyde = animation.createAnimation(ActionKind.Scared, 150)
+    animation.attachAnimation(Clyde, animScaredClyde)
+    animScaredClyde.addAnimationFrame(img`
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 d d 1 1 8 8 d d 1 1 . . . 
+. 8 8 d d 1 1 8 8 d d 1 1 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 d d 8 8 d d 8 8 d d 8 8 d . . 
+d 8 8 d d 8 8 d d 8 8 d d 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
+8 . . . 8 . . . . 8 . . . 8 . . 
+`)
+    animScaredClyde.addAnimationFrame(img`
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 d d 8 8 d d 8 8 d d 8 8 . . 
+d d 8 8 d d 8 8 d d 8 8 d d . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 . . 8 8 8 8 . 8 8 8 . . 8 . . 
+. . . . 8 8 . . . 8 . . . . . . 
+`)
+    animScaredClyde.addAnimationFrame(img`
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 1 1 d d 8 8 1 1 d d . . . 
+. 8 8 1 1 d d 8 8 1 1 d d 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+d 8 8 d d 8 8 d d 8 8 d d 8 . . 
+8 d d 8 8 d d 8 8 d d 8 8 d . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
+8 . . . 8 . . . . 8 . . . 8 . . 
+`)
+    animScaredClyde.addAnimationFrame(img`
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 d d 8 8 d d 8 8 d d 8 8 . . 
+d d 8 8 d d 8 8 d d 8 8 d d . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 . . 8 8 8 8 . 8 8 8 . . 8 . . 
+. . . . 8 8 . . . 8 . . . . . . 
+`)
+    animScaredClyde.addAnimationFrame(img`
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 d d 1 1 8 8 d d 1 1 . . . 
+. 8 8 d d 1 1 8 8 d d 1 1 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 d d 8 8 d d 8 8 d d 8 8 d . . 
+d 8 8 d d 8 8 d d 8 8 d d 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
+8 . . . 8 . . . . 8 . . . 8 . . 
+`)
 }
 info.onCountdownEnd(function () {
     ScaredGhost = 0
+    animation.setAction(Clyde, ActionKind.Walking)
 })
 function clydeMovement () {
     if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevRow)) {
@@ -334,6 +428,7 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
     info.changeScoreBy(10)
     Pellet_Count += -1
     ScaredGhost = 1
+    animation.setAction(Clyde, ActionKind.Scared)
     info.startCountdown(30)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -348,6 +443,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
     }
 })
+let animScaredClyde: animation.Animation = null
 let animWalkClyde: animation.Animation = null
 let ClydePossibleDirections: number[] = []
 let ScaredGhost = 0
