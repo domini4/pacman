@@ -199,6 +199,11 @@ function clydeVelocity (num: number) {
 game.onGameUpdateWithHeading(function () {
     controller.moveSprite(Pacman, 50, 50)
     scene.cameraFollowSprite(Pacman)
+    if (Math.mod(game.runtime() / 1000, 60) < 30 || ScaredGhost == 1) {
+        ClydeChase = 0
+    } else {
+        ClydeChase = 1
+    }
     if (Pacman.x == 7 && controller.left.isPressed()) {
         Pacman.x = 249
     } else if (Pacman.x == 249 && controller.right.isPressed()) {
@@ -213,15 +218,27 @@ function clydeCollision () {
     ClydeDistanceToGo = []
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
         ClydePossibleDirections.push(sprites.heading(Clyde))
-        ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))))
+        if (ClydeChase == 1) {
+            ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))))
+        } else {
+            ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(tiles.getTileLocation(1, 1)), scene.getTileRowCoordinate(tiles.getTileLocation(1, 1)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))))
+        }
     }
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))) {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) - 90, 360))
-        ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))))
+        if (ClydeChase == 1) {
+            ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))))
+        } else {
+            ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(tiles.getTileLocation(1, 1)), scene.getTileRowCoordinate(tiles.getTileLocation(1, 1)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))))
+        }
     }
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)))) {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) + 90, 360))
-        ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))))
+        if (ClydeChase == 1) {
+            ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))))
+        } else {
+            ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(tiles.getTileLocation(1, 1)), scene.getTileRowCoordinate(tiles.getTileLocation(1, 1)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))))
+        }
     }
     ClydeNewHeading = clydeSmallestDistance()
     clydeVelocity(ClydePossibleDirections[ClydeNewHeading])
@@ -478,6 +495,7 @@ let ClydeNewHeading = 0
 let ClydeDistanceToGo: number[] = []
 let ClydePossibleDirections: number[] = []
 let ScaredGhost = 0
+let ClydeChase = 0
 let ClydePrevCol = 0
 let ClydePrevRow = 0
 let Clyde: Sprite = null
@@ -551,7 +569,7 @@ Clyde.setVelocity(-50, 0)
 ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
 ClydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
 animateClyde()
-let ClydeChase = 1
+ClydeChase = 0
 animation.setAction(Clyde, ActionKind.Walking)
 info.setLife(3)
 ScaredGhost = 0
