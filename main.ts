@@ -81,6 +81,13 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
+function clydeStuck () {
+    if (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) == 0 && sprites.heading(Clyde) == 270) {
+        Clyde.setVelocity(50, 0)
+    } else if (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) == 15 && sprites.heading(Clyde) == 90) {
+        Clyde.setVelocity(-50, 0)
+    }
+}
 function animatePacman () {
     animation.runImageAnimation(
     Pacman,
@@ -304,6 +311,7 @@ function clydeMovement () {
         CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
         ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
     }
+    clydeStuck()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     music.wawawawaa.play()
