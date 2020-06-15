@@ -413,7 +413,7 @@ ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
 CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
 animateClyde()
 animation.setAction(Clyde, ActionKind.Walking)
-info.setLife(1)
+info.setLife(3)
 game.onUpdateInterval(500, function () {
     if (Pellet_Count == 0) {
         game.over(true, effects.confetti)
