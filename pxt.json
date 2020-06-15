@@ -5,7 +5,7 @@
         "device": "*",
         "animation": "*",
         "color-coded-tilemap": "*",
-        "pxt-turtlelogo": "github:abegel/pxt-turtlelogo#548faaccc910fad8213aea6e133dd4cffc0ff6f2"
+        "pxt-turtlelogo": "github:abegel/pxt-turtlelogo#v1.0.0"
     },
     "files": [
         "main.blocks",

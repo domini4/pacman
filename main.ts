@@ -182,9 +182,6 @@ function animatePacman () {
     true
     )
 }
-function clydeChaseDistance (PacmanCol: number, PacmanRow: number, ClydeNextCol: number, ClydeNextRow: number) {
-    return (PacmanCol - ClydeNextCol) * (PacmanCol - ClydeNextCol) + (PacmanRow - ClydeNextRow) * (PacmanRow - ClydeNextRow)
-}
 function clydeVelocity (num: number) {
     if (num == 0) {
         Clyde.setVelocity(0, -50)
@@ -199,23 +196,6 @@ function clydeVelocity (num: number) {
         Clyde.setVelocity(Clyde.vx * 0.5, Clyde.vy * 0.5)
     }
 }
-game.onGameUpdateWithHeading(function () {
-    controller.moveSprite(Pacman, 50, 50)
-    scene.cameraFollowSprite(Pacman)
-    if (Math.mod(game.runtime() / 1000, 60) < 30 || ScaredGhost == 1) {
-        ClydeChase = 0
-    } else {
-        ClydeChase = 1
-    }
-    if (Pacman.x == 7 && controller.left.isPressed()) {
-        Pacman.x = 249
-    } else if (Pacman.x == 249 && controller.right.isPressed()) {
-        Pacman.x = 7
-    }
-    if (scene.spriteContainedWithinTile(Clyde)) {
-        clydeMovement()
-    }
-})
 function clydeCollision () {
     ClydePossibleDirections = []
     ClydeDistanceToGo = []
@@ -244,8 +224,17 @@ function clydeCollision () {
         }
     }
     ClydeNewHeading = clydeSmallestDistance()
-    clydeVelocity(ClydePossibleDirections[ClydeNewHeading])
+clydeVelocity(ClydePossibleDirections[ClydeNewHeading])
 }
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
+    tiles.setTileAt(location, myTiles.tile0)
+    music.powerUp.play()
+    info.changeScoreBy(10)
+    Pellet_Count += -1
+    ScaredGhost = 1
+    animation.setAction(Clyde, ActionKind.Scared)
+    info.startCountdown(30)
+})
 function animateClyde () {
     animWalkClyde = animation.createAnimation(ActionKind.Walking, 150)
     animation.attachAnimation(Clyde, animWalkClyde)
@@ -432,10 +421,6 @@ d 8 8 d d 8 8 d d 8 8 d d 8 . .
 8 . . . 8 . . . . 8 . . . 8 . . 
 `)
 }
-info.onCountdownEnd(function () {
-    ScaredGhost = 0
-    animation.setAction(Clyde, ActionKind.Walking)
-})
 function clydeMovement () {
     if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevRow)) {
         clydeCollision()
@@ -443,40 +428,6 @@ function clydeMovement () {
         ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
     }
     clydeStuck()
-}
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
-    tiles.setTileAt(location, myTiles.tile0)
-    music.pewPew.play()
-    info.changeScoreBy(1)
-    Pellet_Count += -1
-})
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
-    tiles.setTileAt(location, myTiles.tile0)
-    music.powerUp.play()
-    info.changeScoreBy(10)
-    Pellet_Count += -1
-    ScaredGhost = 1
-    animation.setAction(Clyde, ActionKind.Scared)
-    info.startCountdown(30)
-})
-function clydeSmallestDistance () {
-    ClydeMultipleShortPaths = []
-    SmallestDistance = ClydeDistanceToGo[0]
-    for (let index = 0; index <= ClydeDistanceToGo.length - 1; index++) {
-        if (ClydeDistanceToGo[index] < SmallestDistance) {
-            SmallestDistance = ClydeDistanceToGo[index]
-        }
-    }
-    for (let index = 0; index <= ClydeDistanceToGo.length - 1; index++) {
-        if (ClydeDistanceToGo[index] == SmallestDistance) {
-            ClydeMultipleShortPaths.push(index)
-        }
-    }
-    if (ClydeMultipleShortPaths.length > 1) {
-        return arrays.choose(ClydeMultipleShortPaths)
-    } else {
-        return ClydeDistanceToGo.indexOf(SmallestDistance)
-    }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (ScaredGhost == 0) {
@@ -490,19 +441,68 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
     }
 })
-let SmallestDistance = 0
-let ClydeMultipleShortPaths: number[] = []
+info.onCountdownEnd(function () {
+    ScaredGhost = 0
+    animation.setAction(Clyde, ActionKind.Walking)
+})
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
+    tiles.setTileAt(location, myTiles.tile0)
+    music.pewPew.play()
+    info.changeScoreBy(1)
+    Pellet_Count += -1
+})
+game.onGameUpdateWithHeading(function () {
+    controller.moveSprite(Pacman, 50, 50)
+    scene.cameraFollowSprite(Pacman)
+    if (Math.mod(game.runtime() / 1000, 60) < 30 || ScaredGhost == 1) {
+        ClydeChase = 0
+    } else {
+        ClydeChase = 1
+    }
+    if (Pacman.x == 7 && controller.left.isPressed()) {
+        Pacman.x = 249
+    } else if (Pacman.x == 249 && controller.right.isPressed()) {
+        Pacman.x = 7
+    }
+    if (scene.spriteContainedWithinTile(Clyde)) {
+        clydeMovement()
+    }
+})
 let animScaredClyde: animation.Animation = null
 let animWalkClyde: animation.Animation = null
-let ClydeNewHeading = 0
-let ClydeDistanceToGo: number[] = []
 let ClydePossibleDirections: number[] = []
 let ScaredGhost = 0
 let ClydeChase = 0
 let ClydePrevCol = 0
 let ClydePrevRow = 0
-let Clyde: Sprite = null
 let Pacman: Sprite = null
+let Clyde: Sprite = null
+let ClydeDistanceToGo: number[] = []
+let ClydeNewHeading = 0
+let ClydeMultipleShortPaths: number[] = []
+let SmallestDistance = 0
+function clydeChaseDistance (PacmanCol: number, PacmanRow: number, ClydeNextCol: number, ClydeNextRow: number) {
+    return (PacmanCol - ClydeNextCol) * (PacmanCol - ClydeNextCol) + (PacmanRow - ClydeNextRow) * (PacmanRow - ClydeNextRow)
+}
+function clydeSmallestDistance () {
+    ClydeMultipleShortPaths = []
+    SmallestDistance = ClydeDistanceToGo[0]
+    for (let index = 0; index <= ClydeDistanceToGo.length - 1; index++) {
+        if (ClydeDistanceToGo[index] < SmallestDistance) {
+            SmallestDistance = ClydeDistanceToGo[index]
+        }
+    }
+    for (let index2 = 0; index2 <= ClydeDistanceToGo.length - 1; index2++) {
+        if (ClydeDistanceToGo[index2] == SmallestDistance) {
+            ClydeMultipleShortPaths.push(index2)
+        }
+    }
+    if (ClydeMultipleShortPaths.length > 1) {
+        return arrays.choose(ClydeMultipleShortPaths)
+    } else {
+        return ClydeDistanceToGo.indexOf(SmallestDistance)
+    }
+}
 music.setVolume(20)
 info.setScore(0)
 tiles.setTilemap(tiles.createTilemap(
