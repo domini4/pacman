@@ -189,17 +189,13 @@ function clydeCollision () {
     ClydePossibleDirections = []
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
         ClydePossibleDirections.push(sprites.heading(Clyde))
-        console.logValue("ahead", 0)
     }
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))) {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) - 90, 360))
-        console.logValue("left", 0)
     }
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)))) {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) + 90, 360))
-        console.logValue("right", 0)
     }
-    console.logValue("number of possible direction", ClydePossibleDirections.length)
     clydeVelocity(arrays.choose(ClydePossibleDirections))
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
@@ -303,7 +299,7 @@ function animateClyde () {
 `)
 }
 function clydeMovement () {
-    if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol)) {
+    if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevRow)) {
         clydeCollision()
         CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
         ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
@@ -404,7 +400,7 @@ Clyde = sprites.create(img`
 4 . 4 . 4 . . . . 4 . . . 4 . . 
 `, SpriteKind.Enemy)
 tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
-Clyde.setVelocity(0, 50)
+Clyde.setVelocity(-50, 0)
 ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
 CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
 animateClyde()
