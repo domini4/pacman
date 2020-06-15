@@ -195,6 +195,9 @@ function clydeVelocity (num: number) {
     } else if (num == 270) {
         Clyde.setVelocity(-50, 0)
     }
+    if (ScaredGhost == 1) {
+        Clyde.setVelocity(Clyde.vx * 0.5, Clyde.vy * 0.5)
+    }
 }
 game.onGameUpdateWithHeading(function () {
     controller.moveSprite(Pacman, 50, 50)
