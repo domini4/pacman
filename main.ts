@@ -185,19 +185,6 @@ function clydeVelocity (num: number) {
         Clyde.setVelocity(-50, 0)
     }
 }
-game.onGameUpdateWithHeading(function () {
-    sprites.updateheading(Clyde)
-    controller.moveSprite(Pacman, 50, 50)
-    scene.cameraFollowSprite(Pacman)
-    if (Pacman.x == 7 && controller.left.isPressed()) {
-        Pacman.x = 249
-    } else if (Pacman.x == 249 && controller.right.isPressed()) {
-        Pacman.x = 7
-    }
-    if (scene.spriteContainedWithinTile(Clyde)) {
-        clydeMovement()
-    }
-})
 function clydeCollision () {
     ClydePossibleDirections = []
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
@@ -215,10 +202,10 @@ function clydeCollision () {
     console.logValue("number of possible direction", ClydePossibleDirections.length)
     clydeVelocity(arrays.choose(ClydePossibleDirections))
 }
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
-    music.pewPew.play()
-    info.changeScoreBy(1)
+    music.powerUp.play()
+    info.changeScoreBy(10)
     Pellet_Count += -1
 })
 function animateClyde () {
@@ -327,6 +314,24 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
     tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
     tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
+})
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
+    tiles.setTileAt(location, myTiles.tile0)
+    music.pewPew.play()
+    info.changeScoreBy(1)
+    Pellet_Count += -1
+})
+game.onGameUpdateWithHeading(function () {
+    controller.moveSprite(Pacman, 50, 50)
+    scene.cameraFollowSprite(Pacman)
+    if (Pacman.x == 7 && controller.left.isPressed()) {
+        Pacman.x = 249
+    } else if (Pacman.x == 249 && controller.right.isPressed()) {
+        Pacman.x = 7
+    }
+    if (scene.spriteContainedWithinTile(Clyde)) {
+        clydeMovement()
+    }
 })
 let animWalkClyde: animation.Animation = null
 let ClydePossibleDirections: number[] = []
