@@ -185,19 +185,40 @@ function clydeVelocity (num: number) {
         Clyde.setVelocity(-50, 0)
     }
 }
+game.onGameUpdateWithHeading(function () {
+    sprites.updateheading(Clyde)
+    controller.moveSprite(Pacman, 50, 50)
+    scene.cameraFollowSprite(Pacman)
+    if (Pacman.x == 7 && controller.left.isPressed()) {
+        Pacman.x = 249
+    } else if (Pacman.x == 249 && controller.right.isPressed()) {
+        Pacman.x = 7
+    }
+    if (scene.spriteContainedWithinTile(Clyde)) {
+        clydeMovement()
+    }
+})
 function clydeCollision () {
     ClydePossibleDirections = []
+    if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
+        ClydePossibleDirections.push(sprites.heading(Clyde))
+        console.logValue("ahead", 0)
+    }
+    if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))) {
+        ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) - 90, 360))
+        console.logValue("left", 0)
+    }
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)))) {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) + 90, 360))
-    } else if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))) {
-        ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) - 90, 360))
+        console.logValue("right", 0)
     }
+    console.logValue("number of possible direction", ClydePossibleDirections.length)
     clydeVelocity(arrays.choose(ClydePossibleDirections))
 }
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
-    music.powerUp.play()
-    info.changeScoreBy(10)
+    music.pewPew.play()
+    info.changeScoreBy(1)
     Pellet_Count += -1
 })
 function animateClyde () {
@@ -295,8 +316,10 @@ function animateClyde () {
 `)
 }
 function clydeMovement () {
-    if (scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))) {
+    if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol)) {
         clydeCollision()
+        CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
+        ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -305,27 +328,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
     tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
 })
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
-    tiles.setTileAt(location, myTiles.tile0)
-    music.pewPew.play()
-    info.changeScoreBy(1)
-    Pellet_Count += -1
-})
-game.onGameUpdateWithHeading(function () {
-    sprites.updateheading(Clyde)
-    controller.moveSprite(Pacman, 50, 50)
-    scene.cameraFollowSprite(Pacman)
-    if (Pacman.x == 7 && controller.left.isPressed()) {
-        Pacman.x = 249
-    } else if (Pacman.x == 249 && controller.right.isPressed()) {
-        Pacman.x = 7
-    }
-    if (scene.spriteContainedWithinTile(Clyde)) {
-        clydeMovement()
-    }
-})
 let animWalkClyde: animation.Animation = null
 let ClydePossibleDirections: number[] = []
+let CLydePrevCol = 0
+let ClydePrevRow = 0
 let Clyde: Sprite = null
 let Pacman: Sprite = null
 music.setVolume(20)
@@ -393,7 +399,9 @@ Clyde = sprites.create(img`
 4 . 4 . 4 . . . . 4 . . . 4 . . 
 `, SpriteKind.Enemy)
 tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
-Clyde.setVelocity(50, 0)
+Clyde.setVelocity(0, 50)
+ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
+CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
 animateClyde()
 animation.setAction(Clyde, ActionKind.Walking)
 info.setLife(1)
