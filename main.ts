@@ -192,6 +192,18 @@ function clydeVelocity (num: number) {
         Clyde.setVelocity(-50, 0)
     }
 }
+game.onGameUpdateWithHeading(function () {
+    controller.moveSprite(Pacman, 50, 50)
+    scene.cameraFollowSprite(Pacman)
+    if (Pacman.x == 7 && controller.left.isPressed()) {
+        Pacman.x = 249
+    } else if (Pacman.x == 249 && controller.right.isPressed()) {
+        Pacman.x = 7
+    }
+    if (scene.spriteContainedWithinTile(Clyde)) {
+        clydeMovement()
+    }
+})
 function clydeCollision () {
     ClydePossibleDirections = []
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
@@ -205,12 +217,6 @@ function clydeCollision () {
     }
     clydeVelocity(arrays.choose(ClydePossibleDirections))
 }
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
-    tiles.setTileAt(location, myTiles.tile0)
-    music.powerUp.play()
-    info.changeScoreBy(10)
-    Pellet_Count += -1
-})
 function animateClyde () {
     animWalkClyde = animation.createAnimation(ActionKind.Walking, 150)
     animation.attachAnimation(Clyde, animWalkClyde)
@@ -313,29 +319,23 @@ function clydeMovement () {
     }
     clydeStuck()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    music.wawawawaa.play()
-    info.changeLifeBy(-1)
-    tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
-    tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
-})
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
     music.pewPew.play()
     info.changeScoreBy(1)
     Pellet_Count += -1
 })
-game.onGameUpdateWithHeading(function () {
-    controller.moveSprite(Pacman, 50, 50)
-    scene.cameraFollowSprite(Pacman)
-    if (Pacman.x == 7 && controller.left.isPressed()) {
-        Pacman.x = 249
-    } else if (Pacman.x == 249 && controller.right.isPressed()) {
-        Pacman.x = 7
-    }
-    if (scene.spriteContainedWithinTile(Clyde)) {
-        clydeMovement()
-    }
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
+    tiles.setTileAt(location, myTiles.tile0)
+    music.powerUp.play()
+    info.changeScoreBy(10)
+    Pellet_Count += -1
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    music.wawawawaa.play()
+    info.changeLifeBy(-1)
+    tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
+    tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
 })
 let animWalkClyde: animation.Animation = null
 let ClydePossibleDirections: number[] = []
