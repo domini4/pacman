@@ -182,6 +182,9 @@ function animatePacman () {
     true
     )
 }
+function clydeChaseDistance (PacmanCol: number, PacmanRow: number, ClydeNextCol: number, ClydeNextRow: number) {
+    return (PacmanCol - ClydeNextCol) * (PacmanCol - ClydeNextCol) + (PacmanRow - ClydeNextRow) * (PacmanRow - ClydeNextRow)
+}
 function clydeVelocity (num: number) {
     if (num == 0) {
         Clyde.setVelocity(0, -50)
@@ -207,16 +210,20 @@ game.onGameUpdateWithHeading(function () {
 })
 function clydeCollision () {
     ClydePossibleDirections = []
+    ClydeDistanceToGo = []
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
         ClydePossibleDirections.push(sprites.heading(Clyde))
+        ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))))
     }
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))) {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) - 90, 360))
+        ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))))
     }
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)))) {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) + 90, 360))
+        ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))))
     }
-    clydeVelocity(arrays.choose(ClydePossibleDirections))
+    clydeVelocity(ClydePossibleDirections[ClydeDistanceToGo.indexOf(clydeSmallestDistance())])
 }
 function animateClyde () {
     animWalkClyde = animation.createAnimation(ActionKind.Walking, 150)
@@ -409,9 +416,9 @@ info.onCountdownEnd(function () {
     animation.setAction(Clyde, ActionKind.Walking)
 })
 function clydeMovement () {
-    if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevRow)) {
+    if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevRow)) {
         clydeCollision()
-        CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
+        ClydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
         ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
     }
     clydeStuck()
@@ -431,6 +438,15 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
     animation.setAction(Clyde, ActionKind.Scared)
     info.startCountdown(30)
 })
+function clydeSmallestDistance () {
+    SmallestDistance = ClydeDistanceToGo[0]
+    for (let index = 0; index <= ClydeDistanceToGo.length - 1; index++) {
+        if (ClydeDistanceToGo[index] < SmallestDistance) {
+            SmallestDistance = ClydeDistanceToGo[index]
+        }
+    }
+    return SmallestDistance
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (ScaredGhost == 0) {
         music.wawawawaa.play()
@@ -443,11 +459,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
     }
 })
+let SmallestDistance = 0
 let animScaredClyde: animation.Animation = null
 let animWalkClyde: animation.Animation = null
+let ClydeDistanceToGo: number[] = []
 let ClydePossibleDirections: number[] = []
 let ScaredGhost = 0
-let CLydePrevCol = 0
+let ClydePrevCol = 0
 let ClydePrevRow = 0
 let Clyde: Sprite = null
 let Pacman: Sprite = null
@@ -518,8 +536,9 @@ Clyde = sprites.create(img`
 tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
 Clyde.setVelocity(-50, 0)
 ClydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
-CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
+ClydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
 animateClyde()
+let ClydeChase = 1
 animation.setAction(Clyde, ActionKind.Walking)
 info.setLife(3)
 ScaredGhost = 0
