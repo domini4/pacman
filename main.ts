@@ -223,7 +223,8 @@ function clydeCollision () {
         ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) + 90, 360))
         ClydeDistanceToGo.push(clydeChaseDistance(scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)), scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)), scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))))
     }
-    clydeVelocity(ClydePossibleDirections[ClydeDistanceToGo.indexOf(clydeSmallestDistance())])
+    ClydeNewHeading = clydeSmallestDistance()
+    clydeVelocity(ClydePossibleDirections[ClydeNewHeading])
 }
 function animateClyde () {
     animWalkClyde = animation.createAnimation(ActionKind.Walking, 150)
@@ -439,13 +440,23 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
     info.startCountdown(30)
 })
 function clydeSmallestDistance () {
+    ClydeMultipleShortPaths = []
     SmallestDistance = ClydeDistanceToGo[0]
     for (let index = 0; index <= ClydeDistanceToGo.length - 1; index++) {
         if (ClydeDistanceToGo[index] < SmallestDistance) {
             SmallestDistance = ClydeDistanceToGo[index]
         }
     }
-    return SmallestDistance
+    for (let index = 0; index <= ClydeDistanceToGo.length - 1; index++) {
+        if (ClydeDistanceToGo[index] == SmallestDistance) {
+            ClydeMultipleShortPaths.push(index)
+        }
+    }
+    if (ClydeMultipleShortPaths.length > 1) {
+        return arrays.choose(ClydeMultipleShortPaths)
+    } else {
+        return ClydeDistanceToGo.indexOf(SmallestDistance)
+    }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (ScaredGhost == 0) {
@@ -460,8 +471,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     }
 })
 let SmallestDistance = 0
+let ClydeMultipleShortPaths: number[] = []
 let animScaredClyde: animation.Animation = null
 let animWalkClyde: animation.Animation = null
+let ClydeNewHeading = 0
 let ClydeDistanceToGo: number[] = []
 let ClydePossibleDirections: number[] = []
 let ScaredGhost = 0
