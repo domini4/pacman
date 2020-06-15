@@ -169,12 +169,52 @@ function animatePacman () {
     true
     )
 }
+function clydeVelocity (num: number) {
+    if (num == 0) {
+        Clyde.setVelocity(0, -50)
+    } else if (num == 90) {
+        Clyde.setVelocity(50, 0)
+    } else if (num == 180) {
+        Clyde.setVelocity(0, 50)
+    } else if (num == 270) {
+        Clyde.setVelocity(-50, 0)
+    }
+}
+game.onGameUpdateWithHeading(function () {
+    sprites.updateheading(Clyde)
+    controller.moveSprite(Pacman, 50, 50)
+    scene.cameraFollowSprite(Pacman)
+    if (Pacman.x == 7 && controller.left.isPressed()) {
+        Pacman.x = 249
+    } else if (Pacman.x == 249 && controller.right.isPressed()) {
+        Pacman.x = 7
+    }
+    if (scene.spriteContainedWithinTile(Clyde)) {
+        clydeMovement()
+    }
+})
+function clydeCollision () {
+    ClydePossibleDirections = []
+    if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)))) {
+        ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) + 90, 360))
+    } else if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))) {
+        ClydePossibleDirections.push(Math.mod(sprites.heading(Clyde) - 90, 360))
+    }
+    clydeVelocity(arrays.choose(ClydePossibleDirections))
+}
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
     music.pewPew.play()
     info.changeScoreBy(1)
     Pellet_Count += -1
 })
+function clydeMovement () {
+    if (scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))) {
+        clydeCollision()
+    }
+}
+let ClydePossibleDirections: number[] = []
+let Clyde: Sprite = null
 let Pacman: Sprite = null
 music.setVolume(20)
 info.setScore(0)
@@ -222,7 +262,7 @@ Pacman = sprites.create(img`
 tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
 let Pellet_Count = tiles.getTilesByType(myTiles.tile2).length + tiles.getTilesByType(myTiles.tile3).length
 animatePacman()
-let Clyde = sprites.create(img`
+Clyde = sprites.create(img`
 . . . . . 4 4 4 4 . . . . . . . 
 . . . 4 4 4 4 4 4 4 4 . . . . . 
 . . . 4 4 4 4 4 4 4 4 4 . . . . 
@@ -240,17 +280,8 @@ let Clyde = sprites.create(img`
 4 4 4 4 4 4 . . 4 4 4 . 4 4 . . 
 4 . 4 . 4 . . . . 4 . . . 4 . . 
 `, SpriteKind.Enemy)
-tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
+tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 1))
 Clyde.setVelocity(50, 0)
-game.onUpdate(function () {
-    controller.moveSprite(Pacman, 50, 50)
-    scene.cameraFollowSprite(Pacman)
-    if (Pacman.x == 7 && controller.left.isPressed()) {
-        Pacman.x = 249
-    } else if (Pacman.x == 249 && controller.right.isPressed()) {
-        Pacman.x = 7
-    }
-})
 game.onUpdateInterval(500, function () {
     if (Pellet_Count == 0) {
         game.over(true, effects.confetti)
