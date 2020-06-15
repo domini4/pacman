@@ -311,6 +311,9 @@ function animateClyde () {
 4 . . . 4 . . . . 4 . . . 4 . . 
 `)
 }
+info.onCountdownEnd(function () {
+    ScaredGhost = 0
+})
 function clydeMovement () {
     if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != CLydePrevCol || scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != ClydePrevRow)) {
         clydeCollision()
@@ -331,6 +334,7 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
     info.changeScoreBy(10)
     Pellet_Count += -1
     ScaredGhost = 1
+    info.startCountdown(30)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (ScaredGhost == 0) {
