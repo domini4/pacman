@@ -330,15 +330,23 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
     music.powerUp.play()
     info.changeScoreBy(10)
     Pellet_Count += -1
+    ScaredGhost = 1
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    music.wawawawaa.play()
-    info.changeLifeBy(-1)
-    tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
-    tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
+    if (ScaredGhost == 0) {
+        music.wawawawaa.play()
+        info.changeLifeBy(-1)
+        tiles.placeOnTile(Pacman, tiles.getTileLocation(4, 2))
+        tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
+    } else {
+        info.changeScoreBy(100)
+        music.powerUp.play()
+        tiles.placeOnTile(Clyde, tiles.getTileLocation(4, 5))
+    }
 })
 let animWalkClyde: animation.Animation = null
 let ClydePossibleDirections: number[] = []
+let ScaredGhost = 0
 let CLydePrevCol = 0
 let ClydePrevRow = 0
 let Clyde: Sprite = null
@@ -414,6 +422,7 @@ CLydePrevCol = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
 animateClyde()
 animation.setAction(Clyde, ActionKind.Walking)
 info.setLife(3)
+ScaredGhost = 0
 game.onUpdateInterval(500, function () {
     if (Pellet_Count == 0) {
         game.over(true, effects.confetti)
